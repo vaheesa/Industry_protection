@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url("https://www.xmple.com/wallpaper/blue-gradient-white-linear-1920x1080-c2-87cefa-ffffff-a-105-f-14.svg");
+    }
+
+    .header {
+      overflow: hidden;
+      background-color: #000546;
+      padding: 20px 10px;
+    }
+
+    .header a {
+      float: left;
+      color: rgb(255, 255, 255);
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      line-height: 15px;
+      border-radius: 2px;
+    }
+
+    .header a.logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .header a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .header a.active {
+      background-color: dodgerblue;
+      color: white;
+    }
+
+    .header-right {
+      float: right;
+    }
+
+    .button {
+      background-color: #0c035a;
+      border: none;
+      color: rgb(255, 255, 255);
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .card {
+      width: 90px;
+      height: 140px;
+      margin: 12px;
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0 0 12px rgb(63, 63, 63);
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 9px;
+      background-color: rgb(95, 95, 255);
+    }
+
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+    @media screen and (max-width: 500px) {
+      .header a {
+        float: none;
+        display: block;
+        text-align: left;
+      }
+
+      .header-right {
+        float: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="#default" class="logo">Fire and Gas Alarm Circuit</a>
+  </div>
+</body>
+
+<br />
+<html>
+  <head>
+    <div class="card-container">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <div class="container">
+        <script>
+          $(document).ready(function () {
+            $("button").click(function () {
+              $.post("http://localhost:3000/fire", {
+                name: "Donald Duck",
+                city: "Duckburg",
+              });
+            });
+          });
+        </script>
+
+        <img
+          src="https://cdn4.vectorstock.com/i/1000x1000/15/33/fire-alarm-system-fire-equipment-vector-23311533.jpg"
+          alt="Avatar"
+          style="width: 150px"
+          class="center"
+        />
+        <br />
+        <button class="button">Off Water Springler</button>
+      </div>
+      <div class="container">
+        <script>
+          $(document).ready(function () {
+            $("button").click(function () {
+              $.post("http://localhost:3000/gas", {
+                name: "Donald Duck",
+                city: "Duckburg",
+              });
+            });
+          });
+        </script>
+
+        <img
+          src="https://cdn5.vectorstock.com/i/1000x1000/91/99/gas-sensor-outline-icon-thin-line-style-from-vector-26839199.jpg"
+          alt="Avatar"
+          style="width: 150px"
+          class="center"
+        />
+        <br />
+        <button class="button">Off Exhaust Fan</button>
+      </div>
+    </div>
+  </head>
+
+  <body onload="load()">
+    <p id="test"></p>
+	<p id="control"></p> &nbsp <p id="temp"></p>
+
+    <script type="text/javascript">
+      let url = "http://localhost:3000/test";
+      fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("success:", result);
+          let div = document.getElementById("test");
+
+          div.innerHTML = `Fire: ${result.Fire}
+             
+          <br />
+            Gas: ${result.Gas}`;
+          div.style.fontSize = "30px";
+          div.style.textAlign = "center";
+          if (result.Fire == "Fire"||result.Gas == "Gas Leakage"||result.Fire=="Connection Error"||result.Gas=="Connection Error") {
+            div.style.color = "red";
+            div.style.fontSize = "40px";
+          } else {
+            div.style.color = "green";
+          }
+        })
+        .catch((error) => console.log("error:", error));
+    </script>
+	<script type="text/javascript">
+      let url2 = "http://localhost:3000/control";
+      fetch(url2)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("success:", result);
+          let div = document.getElementById("control");
+
+          div.innerHTML = `Fan: ${result.Fan}
+             
+          &nbsp;&nbsp;&nbsp;
+              Water: ${result.Water}`;
+          div.style.fontSize = "30px";
+          div.style.textAlign = "center";
+          if (result.Fan == "On"||result.Water == "On") {
+            div.style.color = "red";
+            div.style.fontSize = "40px";
+          } else {
+            div.style.color = "green";
+          }
+        })
+        .catch((error) => console.log("error:", error));
+    </script>
+	<script type="text/javascript">
+      let url3 = "http://localhost:3000/temp";
+      fetch(url3)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("success:", result);
+          let div = document.getElementById("temp");
+
+          div.innerHTML = `Temperature: ${result.Temperature} C`;
+             
+          
+          div.style.fontSize = "20px";
+          div.style.textAlign = "center";
+          if (result.Temperature>50) {
+            div.style.color = "red";
+            div.style.fontSize = "30px";
+			div.innerHTML = `Temperature: ${result.Temperature} C High Temperature`;
+          } else {
+            div.style.color = "green";
+          }
+        })
+        .catch((error) => console.log("error:", error));
+    </script>
+
+    <script type="text/javascript">
+      function load() {
+        setTimeout("window.open(self.location, '_self');", 1000);
+      }
+    </script>
+	
+	
+  </body>
+</html>
